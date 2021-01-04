@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 import rospy
 from geometry_msgs.msg import Twist
-from random import randint as rand
 from nav_msgs.msg import Odometry
 from tf.transformations import euler_from_quaternion
 from math import atan2, sqrt
+from rt_assignment_1.srv import RandomTarget
+from rt_assignment_1.srv import RandomTargetRequest
+from rt_assignment_1.srv import RandomTargetResponse
 
 current_position_x = 0.0
 current_position_y = 0.0
@@ -26,8 +28,6 @@ def pose_clbk(pose_message):
 
 
 def control():
-    rand_x = 0.0
-    rand_y = 0.0
     distance_to_target = 0.0
     # Initializing the node
     rospy.init_node('robot_controller')
@@ -43,9 +43,15 @@ def control():
         if (distance_to_target < 0.1):
             velocity.linear.x = 0.0
             # Random Location Generator
-            rand_x = rand(-6.0, 6.0)
-            rand_y = rand(-6.0, 6.0)
-            print(f'The target cordinate is x: {rand_x}, y: {rand_y}')
+            rospy.wait_for_service('random_target')
+            try:
+                random_target = rospy.ServiceProxy(
+                    'random_target', RandomTarget)
+                target = random_target('Target Reached')
+                rand_x = target.cord_x
+                rand_y = target.cord_y
+            except rospy.ServiceException(e):
+                print('Service call failed: %s' % e)
 
         dist_x = rand_x - current_position_x
         dist_y = rand_y - current_position_y
