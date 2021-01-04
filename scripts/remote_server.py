@@ -6,8 +6,6 @@ from random import randint as rand
 import rospy
 
 # The callback function
-
-
 def handle_random_target(req):
     print(req)
     # Random Location Generator
