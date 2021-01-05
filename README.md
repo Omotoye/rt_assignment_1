@@ -40,14 +40,9 @@ The two nodes are written in python. The package is intended to run on the lates
     (roll, pitch, yaw) = euler_from_quaternion(quaternion)
 ```
 * The image below describes the algorithm used to control the Robot to get to the intended target.
- <style>
-      .img-container {
-        text-align: center;
-      }
-    </style>
-<div class = "img-container">
-    <img src = "images/navigation_basics1.jpg" width = 640px title = "Robot Navigation Basics" alt = "Robot Navigation Basics"  />
-</div>
+
+![Robot Navigation Basics]( images/navigation_basics1.jpg "Robot Navigation Basics")
+
 
 * Algorithm for the robot Navigation:
     * Get the Robot Orientation angle and Angle to the target *(required robot orientation)*
@@ -82,9 +77,7 @@ from rt_assignment_1.srv import RandomTargetResponse
 
 #### How the Nodes Communicate
 To see how all the nodes communicate, it can be best described by an rqt_graph as show below
-<div class = "img-container">
-    <img src = "images/rqt_graph.jpg" width = 640px title = "rqt_graph" alt = "rqt_graph"  />
-</div>
+![rqt_graph]( images/rqt_graph.jpg "rqt_graph")
 
 * From the image, it is shown that the _/robot_controller_ is subscribed to the __odom__ topic of the __Stage__ node and the _/robot_controller_ is publishing to the _/cmd_vel_ topic.
 * Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects what the __client__ sends a request to it.
@@ -148,9 +141,7 @@ _Again, this second method is not the recommended one, the first one is easy and
 # What behaviour should you expect to see after launching the package
 
 A 2d robot simulation environment should open in a different window and a feedback of the real-time location of the robot returned to the shell as shown in the image below
-<div class = "img-container">
-    <img src = "images/2d_simulation.jpg" width = 940px alt = "2D Simulation and Feedback Data" title = "2D Simulation and Feedback Data"   />
-</div>
+![2D Simulation and Feedback Data]( images/2d_simulation.jpg "2D Simulation and Feedback Data")
 
 
 
