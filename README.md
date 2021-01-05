@@ -77,7 +77,7 @@ from rt_assignment_1.srv import RandomTargetResponse
 
 #### How the Nodes Communicate
 To see how all the nodes communicate, it can be best described by an rqt_graph as show below
-![rqt_graph]( images/rqt_graph.jpg "rqt_graph")
+![rqt_graph]( images/rqt_graph.JPG "rqt_graph")
 
 * From the image, it is shown that the _/robot_controller_ is subscribed to the __odom__ topic of the __Stage__ node and the _/robot_controller_ is publishing to the _/cmd_vel_ topic.
 * Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects what the __client__ sends a request to it.
@@ -141,7 +141,7 @@ _Again, this second method is not the recommended one, the first one is easy and
 # What behaviour should you expect to see after launching the package
 
 A 2d robot simulation environment should open in a different window and a feedback of the real-time location of the robot returned to the shell as shown in the image below
-![2D Simulation and Feedback Data]( images/2d_simulation.jpg "2D Simulation and Feedback Data")
+![2D Simulation and Feedback Data]( images/2d_simulation.JPG "2D Simulation and Feedback Data")
 
 
 
