@@ -17,19 +17,19 @@ yaw = 0.0
 
 def the_distance_to_target(target):
     """
-    Calculates the distance between the robot and the 
+    Calculates the distance between the robot and the
     target
 
     Args:
-        target (Object): Object containing the x and y 
+        target (Object): Object containing the x and y
         coodinates of the new target
 
     Returns:
-        (int): returns a tuple of the value of the 
+        (int): returns a tuple of the value of the
         distance to the target and the required yaw to
         face the direction of the target
     """
-    
+
     dist_x = target.cord_x - current_position_x
     dist_y = target.cord_y - current_position_y
     required_yaw = atan2(dist_y, dist_x)
@@ -43,7 +43,7 @@ def call_to_service():
     message
 
     Returns:
-        (Object): A target object containing the x and y 
+        (Object): A target object containing the x and y
         coordinates
     """
     rospy.wait_for_service('random_target')
@@ -54,7 +54,8 @@ def call_to_service():
         else:
             target = random_target('Target Reached')
     except rospy.ServiceException(e):
-        print(f'Service call failed: {e}')
+        # print(f'Service call failed: {e}')
+        print('Service call failed: {0}'.format(e))
     return target
 
 
@@ -62,10 +63,10 @@ def pose_clbk(pose_message):
     """
     The pose callback function takes the position and posture of
     the robot from the argument "pose_message" and set it to
-    three global variables containing the x, y and yaw position. 
+    three global variables containing the x, y and yaw position.
 
     Args:
-        pose_message (Object): an object containing all the values 
+        pose_message (Object): an object containing all the values
         of the current position and posture of the robot
     """
 
@@ -87,7 +88,7 @@ def pose_clbk(pose_message):
 
 def control():
     """
-    The control function sends a request to random_target service, 
+    The control function sends a request to random_target service,
     accepts a response of the cordinates of the new target position
     and sets the robot to navigate to the target coordinates
     """
@@ -113,8 +114,10 @@ def control():
         if (distance_to_target < 0.1):
             velocity.linear.x = 0.0
             if(distance_to_target != 0.0 and current_position_x != 0.0 and current_position_y != 0.0):
-                print(
-                    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
+                # print(
+                #    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
+                print('Distance to target: {0:.4f}, x: {1:.4f}, y: {2:.4f}'.format(
+                    distance_to_target, current_position_x, current_position_y))
             target = call_to_service()
         distance_to_target, required_yaw = the_distance_to_target(target)
         if (target.cord_x != 0 and target.cord_y != 0):
@@ -126,8 +129,10 @@ def control():
                 velocity.angular.z = 0.0
                 distance_to_target, required_yaw = the_distance_to_target(
                     target)
+                # print(
+                #    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
                 print(
-                    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
+                    'Distance to target: {0:.4f}, x: {1:.4f}, y: {2:.4f}'.format(distance_to_target, current_position_x, current_position_y))
             vel_pub.publish(velocity)
         rate.sleep()
 

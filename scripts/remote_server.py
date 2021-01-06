@@ -23,7 +23,9 @@ def handle_random_target(req):
     # Random Location Generator
     rand_x = rand(-6.0, 6.0)
     rand_y = rand(-6.0, 6.0)
-    print(f'The new target cordinate is x: {rand_x}, y: {rand_y}')
+    #print(f'The new target cordinate is x: {rand_x}, y: {rand_y}')
+    print('The new target cordinate is x: {0}, y: {1}'.format(rand_x, rand_y))
+
 
     return RandomTargetResponse(rand_x, rand_y)
 
