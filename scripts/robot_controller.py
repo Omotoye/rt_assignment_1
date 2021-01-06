@@ -54,8 +54,7 @@ def call_to_service():
         else:
             target = random_target('Target Reached')
     except rospy.ServiceException(e):
-        # print(f'Service call failed: {e}')
-        print('Service call failed: {0}'.format(e))
+        print(f'Service call failed: {e}')
     return target
 
 
@@ -114,10 +113,7 @@ def control():
         if (distance_to_target < 0.1):
             velocity.linear.x = 0.0
             if(distance_to_target != 0.0 and current_position_x != 0.0 and current_position_y != 0.0):
-                # print(
-                #    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
-                print('Distance to target: {0:.4f}, x: {1:.4f}, y: {2:.4f}'.format(
-                    distance_to_target, current_position_x, current_position_y))
+                print(f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
             target = call_to_service()
         distance_to_target, required_yaw = the_distance_to_target(target)
         if (target.cord_x != 0 and target.cord_y != 0):
@@ -129,10 +125,7 @@ def control():
                 velocity.angular.z = 0.0
                 distance_to_target, required_yaw = the_distance_to_target(
                     target)
-                # print(
-                #    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
-                print(
-                    'Distance to target: {0:.4f}, x: {1:.4f}, y: {2:.4f}'.format(distance_to_target, current_position_x, current_position_y))
+                print(f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
             vel_pub.publish(velocity)
         rate.sleep()
 
