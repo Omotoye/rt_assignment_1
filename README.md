@@ -148,5 +148,8 @@ A 2d robot simulation environment should open in a different window and a feedba
 ![2D Simulation and Feedback Data]( images/2d_simulation.JPG "2D Simulation and Feedback Data")
 
 
+_For more information about the python scripts, go to docs/html/index.html_
+
+
 
 
