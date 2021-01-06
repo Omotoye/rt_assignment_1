@@ -1,17 +1,15 @@
 # Research Track 1: First Assignment 
 #### Author's Name: __Omotoye__ Shamsudeen Adekoya
 #### Student ID: __5066348__
-
-<br/>
+---
 
 # Outline 
-* ### ROS Package Description
-    * #### What the Package Does
-    * #### How the Nodes in the Package works
-* ### How to Compile and Launch the Package
-* ### What behaviour should you expect to see after Launching the Package
+* #### ROS Package Description
+    * What the Package Does
+    * How the Nodes in the Package works
+* #### How to Compile and Launch the Package
+* #### What behaviour should you expect to see after Launching the Package
 
-<br/>
 
 # ROS Package Description
 ### What the Package Does
@@ -39,9 +37,6 @@ The two nodes are written in python. The package is intended to run on the lates
     # Using tuple unpacking to get the roll, pitch and yaw values for the euler tuple
     (roll, pitch, yaw) = euler_from_quaternion(quaternion)
 ```
-* The image below describes the algorithm used to control the Robot to get to the intended target.
-
-![Robot Navigation Basics]( images/navigation_basics1.jpg "Robot Navigation Basics")
 
 
 * Algorithm for the robot Navigation:
@@ -49,7 +44,16 @@ The two nodes are written in python. The package is intended to run on the lates
     * Add or subtract from the robot orientation angle until the *abs(robot_orientation_angle - angle_to_the_target) < 0.1*
     * If *abs(robot_orientation_angle - angle_to_the_target) < 0.1*, then the robot is facing the right direction
     * Move the robot forward until the distance between the robot and the target is less than 0.1
+    * The distance between the robot and the target can be caluculated at every instance with pythagoras theorem
     * If the distance between the robot and the target is less than 0.1, then the robot has gotten to the target.
+* Code for some of the calculations is shown below.
+```python
+    dist_x = target.cord_x - current_position_x
+    dist_y = target.cord_y - current_position_y
+    required_yaw = atan2(dist_y, dist_x)
+    distance_to_target = sqrt((dist_x*dist_x) + (dist_y*dist_y))
+    return distance_to_target, required_yaw
+```
 
 #### Node 2 ---> *Robot Server*
 * This node listens for a request from the robot controller __(Client)__.
