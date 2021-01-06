@@ -1,0 +1,53 @@
+.TH "remote_server" 3 "Wed Jan 6 2021" "Version 0.1.0" "Research Track 1: Assignment 1" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+remote_server
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBhandle_random_target\fP (req)"
+.br
+.ti -1c
+.RI "def \fBrandom_target_gen\fP ()"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def remote_server\&.handle_random_target ( req)"
+
+.PP
+.nf
+Takes in a request message and returns a random target
+coordinte, x and y
+
+Args:
+    req (str): The request message sent by the Client
+
+Returns:
+    [Object]: The response sent to the Client 
+
+.fi
+.PP
+ 
+.PP
+Definition at line 9 of file remote_server\&.py\&.
+.SS "def remote_server\&.random_target_gen ()"
+
+.PP
+.nf
+Initializes the Service and sends request message to
+the callback function
+
+.fi
+.PP
+ 
+.PP
+Definition at line 31 of file remote_server\&.py\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Research Track 1: Assignment 1 from the source code\&.

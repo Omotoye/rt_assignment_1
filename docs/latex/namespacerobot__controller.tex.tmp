@@ -1,0 +1,135 @@
+\hypertarget{namespacerobot__controller}{}\doxysection{robot\+\_\+controller Namespace Reference}
+\label{namespacerobot__controller}\index{robot\_controller@{robot\_controller}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacerobot__controller_a3b501fb773df0808053175b489589ad7}{the\+\_\+distance\+\_\+to\+\_\+target}} (target)
+\item 
+def \mbox{\hyperlink{namespacerobot__controller_a968a8816c106515a3a40fdfa6565357b}{call\+\_\+to\+\_\+service}} ()
+\item 
+def \mbox{\hyperlink{namespacerobot__controller_a436e63f901228e1340f2a5b3dd734bf5}{pose\+\_\+clbk}} (pose\+\_\+message)
+\item 
+def \mbox{\hyperlink{namespacerobot__controller_a511c31df6f9bf112ed99fb8e649db6ae}{control}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{namespacerobot__controller_ac1d6e215b45a910d621dd471e1fb7b58}{current\+\_\+position\+\_\+x}} = 0.\+0
+\item 
+float \mbox{\hyperlink{namespacerobot__controller_af12f2ec2d47304518610781f08a83f4a}{current\+\_\+position\+\_\+y}} = 0.\+0
+\item 
+float \mbox{\hyperlink{namespacerobot__controller_a8178f2b235f6f40039a945fd5538edb7}{yaw}} = 0.\+0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacerobot__controller_a968a8816c106515a3a40fdfa6565357b}\label{namespacerobot__controller_a968a8816c106515a3a40fdfa6565357b}} 
+\index{robot\_controller@{robot\_controller}!call\_to\_service@{call\_to\_service}}
+\index{call\_to\_service@{call\_to\_service}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{call\_to\_service()}{call\_to\_service()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+call\+\_\+to\+\_\+service (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Sends a service request to random_target with a status
+message
+
+Returns:
+    (Object): A target object containing the x and y
+    coordinates
+\end{DoxyVerb}
+ 
+
+Definition at line 40 of file robot\+\_\+controller.\+py.
+
+Here is the caller graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{namespacerobot__controller_a511c31df6f9bf112ed99fb8e649db6ae}\label{namespacerobot__controller_a511c31df6f9bf112ed99fb8e649db6ae}} 
+\index{robot\_controller@{robot\_controller}!control@{control}}
+\index{control@{control}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{control()}{control()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+control (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The control function sends a request to random_target service,
+accepts a response of the cordinates of the new target position
+and sets the robot to navigate to the target coordinates
+\end{DoxyVerb}
+ 
+
+Definition at line 88 of file robot\+\_\+controller.\+py.
+
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{namespacerobot__controller_a436e63f901228e1340f2a5b3dd734bf5}\label{namespacerobot__controller_a436e63f901228e1340f2a5b3dd734bf5}} 
+\index{robot\_controller@{robot\_controller}!pose\_clbk@{pose\_clbk}}
+\index{pose\_clbk@{pose\_clbk}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{pose\_clbk()}{pose\_clbk()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+pose\+\_\+clbk (\begin{DoxyParamCaption}\item[{}]{pose\+\_\+message }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The pose callback function takes the position and posture of
+the robot from the argument "pose_message" and set it to
+three global variables containing the x, y and yaw position.
+
+Args:
+    pose_message (Object): an object containing all the values
+    of the current position and posture of the robot
+\end{DoxyVerb}
+ 
+
+Definition at line 61 of file robot\+\_\+controller.\+py.
+
+\mbox{\Hypertarget{namespacerobot__controller_a3b501fb773df0808053175b489589ad7}\label{namespacerobot__controller_a3b501fb773df0808053175b489589ad7}} 
+\index{robot\_controller@{robot\_controller}!the\_distance\_to\_target@{the\_distance\_to\_target}}
+\index{the\_distance\_to\_target@{the\_distance\_to\_target}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{the\_distance\_to\_target()}{the\_distance\_to\_target()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+the\+\_\+distance\+\_\+to\+\_\+target (\begin{DoxyParamCaption}\item[{}]{target }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculates the distance between the robot and the
+target
+
+Args:
+    target (Object): Object containing the x and y
+    coodinates of the new target
+
+Returns:
+    (int): returns a tuple of the value of the
+    distance to the target and the required yaw to
+    face the direction of the target
+\end{DoxyVerb}
+ 
+
+Definition at line 18 of file robot\+\_\+controller.\+py.
+
+Here is the caller graph for this function\+:
+% FIG 2
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacerobot__controller_ac1d6e215b45a910d621dd471e1fb7b58}\label{namespacerobot__controller_ac1d6e215b45a910d621dd471e1fb7b58}} 
+\index{robot\_controller@{robot\_controller}!current\_position\_x@{current\_position\_x}}
+\index{current\_position\_x@{current\_position\_x}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{current\_position\_x}{current\_position\_x}}
+{\footnotesize\ttfamily float robot\+\_\+controller.\+current\+\_\+position\+\_\+x = 0.\+0}
+
+
+
+Definition at line 13 of file robot\+\_\+controller.\+py.
+
+\mbox{\Hypertarget{namespacerobot__controller_af12f2ec2d47304518610781f08a83f4a}\label{namespacerobot__controller_af12f2ec2d47304518610781f08a83f4a}} 
+\index{robot\_controller@{robot\_controller}!current\_position\_y@{current\_position\_y}}
+\index{current\_position\_y@{current\_position\_y}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{current\_position\_y}{current\_position\_y}}
+{\footnotesize\ttfamily float robot\+\_\+controller.\+current\+\_\+position\+\_\+y = 0.\+0}
+
+
+
+Definition at line 14 of file robot\+\_\+controller.\+py.
+
+\mbox{\Hypertarget{namespacerobot__controller_a8178f2b235f6f40039a945fd5538edb7}\label{namespacerobot__controller_a8178f2b235f6f40039a945fd5538edb7}} 
+\index{robot\_controller@{robot\_controller}!yaw@{yaw}}
+\index{yaw@{yaw}!robot\_controller@{robot\_controller}}
+\doxysubsubsection{\texorpdfstring{yaw}{yaw}}
+{\footnotesize\ttfamily float robot\+\_\+controller.\+yaw = 0.\+0}
+
+
+
+Definition at line 15 of file robot\+\_\+controller.\+py.
+

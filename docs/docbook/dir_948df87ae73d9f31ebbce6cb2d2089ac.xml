@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_dir_948df87ae73d9f31ebbce6cb2d2089ac" xml:lang="en-US">
+<title>C:/Users/User/Desktop/rt_assignment_1/scripts Directory Reference</title>
+<indexterm><primary>C:/Users/User/Desktop/rt_assignment_1/scripts Directory Reference</primary></indexterm>
+<simplesect>
+    <title>Files    </title>
+        <itemizedlist>
+            <listitem><para>file <link linkend="_remote__server_8py">remote_server.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_robot__controller_8py">robot_controller.py</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>
