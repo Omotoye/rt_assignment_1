@@ -6,5 +6,5 @@
     <node pkg="rt_assignment_1" type="remote_server.py" name="random_target_gen" output="screen"/>
 
     <!-- Starting the robot controller -->
-    <node pkg="rt_assignment_1" type="robot_controller.py" name="robot_controller" output="screen"/>
+    <node pkg="rt_assignment_1" type="robot_controller_1.py" name="robot_controller" output="screen"/>
 </launch> 
