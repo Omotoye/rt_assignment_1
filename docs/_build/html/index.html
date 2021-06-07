@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Indices &mdash; rt_assignment_1 0.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> rt_assignment_1
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Indices</a></li>
+<li><a class="reference internal" href="#rt-assignment-1-s-documentation">RT_assignment_1’s documentation!</a><ul>
+<li><a class="reference internal" href="#module-robot_controller_1">Robot Controller 1 Module</a></li>
+<li><a class="reference internal" href="#module-robot_controller_2">Robot Controller 2 Module</a></li>
+<li><a class="reference internal" href="#module-remote_server">Remote Server</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">rt_assignment_1</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Indices</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="rt-assignment-1-s-documentation">
+<h1>RT_assignment_1’s documentation!<a class="headerlink" href="#rt-assignment-1-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This is the documentation of the RT_assignment_1 package!</p>
+<div class="section" id="module-robot_controller_1">
+<span id="robot-controller-1-module"></span><h2>Robot Controller 1 Module<a class="headerlink" href="#module-robot_controller_1" title="Permalink to this headline">¶</a></h2>
+<p>This node implements a holonomic robot control for a mobile robot in a 2D simulation</p>
+<dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/odom topic where the simulator publishes the robot position</p>
+</dd>
+<dt>Publishes to:</dt><dd><p>/cmd_vel the desired robot positions</p>
+</dd>
+<dt>Service:</dt><dd><p>/robot_controller_1 to move the robot to the target</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_1.</span></code><code class="sig-name descname"><span class="pre">call_to_service</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_1.html#call_to_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Sends a service request to random_target with a status
+message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A target object containing the x and y
+coordinates</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_1.</span></code><code class="sig-name descname"><span class="pre">control</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_1.html#control"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The control function sends a request to random_target service,
+accepts a response of the cordinates of the new target position
+and sets the robot to navigate to the target coordinates</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_1.</span></code><code class="sig-name descname"><span class="pre">pose_clbk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_1.html#pose_clbk"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The pose callback function takes the position and posture of
+the robot from the argument “pose_message” and set it to
+two global variables containing the x and y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_message</strong> (<em>Object</em>) – an object containing all the values</p></li>
+<li><p><strong>the current position and posture of the robot</strong> (<em>of</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_1.</span></code><code class="sig-name descname"><span class="pre">the_distance_to_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_1.html#the_distance_to_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Calculates the distance between the robot and the
+target</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>Object</em>) – Object containing the x and y</p></li>
+<li><p><strong>of the new target</strong> (<em>coodinates</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns a tuple of the value of the
+distance to the target and the required velocity
+in the x and y direction to reach the target and
+the distance to the target</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-robot_controller_2">
+<span id="robot-controller-2-module"></span><h2>Robot Controller 2 Module<a class="headerlink" href="#module-robot_controller_2" title="Permalink to this headline">¶</a></h2>
+<p>This node implements a non-holonomic robot control for a mobile robot in a 2D simulation</p>
+<dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/odom topic where the simulator publishes the robot position</p>
+</dd>
+<dt>Publishes to:</dt><dd><p>/cmd_vel the desired robot positions</p>
+</dd>
+<dt>Service:</dt><dd><p>/robot_controller_2 to move the robot to the target</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_2.</span></code><code class="sig-name descname"><span class="pre">call_to_service</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_2.html#call_to_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Sends a service request to random_target with a status
+message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A target object containing the x and y
+coordinates</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_2.</span></code><code class="sig-name descname"><span class="pre">control</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_2.html#control"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The control function sends a request to random_target service,
+accepts a response of the cordinates of the new target position
+and sets the robot to navigate to the target coordinates</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_2.</span></code><code class="sig-name descname"><span class="pre">pose_clbk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_2.html#pose_clbk"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The pose callback function takes the position and posture of
+the robot from the argument “pose_message” and set it to
+three global variables containing the x, y and yaw position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_message</strong> (<em>Object</em>) – an object containing all the values</p></li>
+<li><p><strong>the current position and posture of the robot</strong> (<em>of</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">robot_controller_2.</span></code><code class="sig-name descname"><span class="pre">the_distance_to_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robot_controller_2.html#the_distance_to_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Calculates the distance between the robot and the
+target</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>Object</em>) – Object containing the x and y</p></li>
+<li><p><strong>of the new target</strong> (<em>coodinates</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns a tuple of the value of the
+distance to the target and the required yaw to
+face the direction of the target</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-remote_server">
+<span id="remote-server"></span><h2>Remote Server<a class="headerlink" href="#module-remote_server" title="Permalink to this headline">¶</a></h2>
+<p>This node generates random target in a 2D Simulation for mobile robots to navigate to. it
+accepts a request for a target and sends a response of a randomly generated target.</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/remote_server to generate random target location</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">remote_server.</span></code><code class="sig-name descname"><span class="pre">handle_random_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/remote_server.html#handle_random_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Takes in a request message and returns a random target
+coordinte, x and y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>req</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The request message sent by the Client</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The response sent to the Client</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[Object]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">remote_server.</span></code><code class="sig-name descname"><span class="pre">random_target_gen</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/remote_server.html#random_target_gen"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Initializes the Service and sends request message to
+the callback function</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Omotoye Shamsudeen Adekoya.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

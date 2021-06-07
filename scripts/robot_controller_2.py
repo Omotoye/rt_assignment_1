@@ -1,4 +1,25 @@
 #!/usr/bin/python3
+
+"""
+
+.. module:: robot_controller_2
+    :platform: Unix
+    :synopsis: Python module for control of a mobile robot (non-holonomic)
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com  
+
+This node implements a non-holonomic robot control for a mobile robot in a 2D simulation
+
+Subscribes to:
+    /odom topic where the simulator publishes the robot position
+
+Publishes to: 
+    /cmd_vel the desired robot positions
+    
+Service:
+    /robot_controller_2 to move the robot to the target 
+    
+"""
+
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -53,7 +74,7 @@ def call_to_service():
             target = random_target('Waiting for Target')
         else:
             target = random_target('Target Reached')
-    except rospy.ServiceException(e):
+    except rospy.ServiceException as e:
         print(f'Service call failed: {e}')
     return target
 
@@ -113,7 +134,8 @@ def control():
         if (distance_to_target < 0.1):
             velocity.linear.x = 0.0
             if(distance_to_target != 0.0 and current_position_x != 0.0 and current_position_y != 0.0):
-                print(f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
+                print(
+                    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
             target = call_to_service()
         distance_to_target, required_yaw = the_distance_to_target(target)
         if (target.cord_x != 0 and target.cord_y != 0):
@@ -125,7 +147,8 @@ def control():
                 velocity.angular.z = 0.0
                 distance_to_target, required_yaw = the_distance_to_target(
                     target)
-                print(f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
+                print(
+                    f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
             vel_pub.publish(velocity)
         rate.sleep()
 

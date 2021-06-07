@@ -1,4 +1,20 @@
 #!/usr/bin/python3
+
+"""
+.. module:: remote_server
+    :platform: Unix
+    :synopsis: Generates random target in a 2D Simulation
+    
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com  
+
+This node generates random target in a 2D Simulation for mobile robots to navigate to. it
+accepts a request for a target and sends a response of a randomly generated target. 
+    
+Service:
+    /remote_server to generate random target location  
+    
+"""
+
 from rt_assignment_1.srv import RandomTarget
 from rt_assignment_1.srv import RandomTargetRequest
 from rt_assignment_1.srv import RandomTargetResponse

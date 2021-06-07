@@ -4,5 +4,6 @@
 
 # for python file
 *.pyc
+*pycache__ 
 
 

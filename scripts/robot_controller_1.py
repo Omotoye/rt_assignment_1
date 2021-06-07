@@ -1,4 +1,24 @@
 #!/usr/bin/python3
+
+"""
+.. module:: robot_controller_1
+    :platform: Unix
+    :synopsis: Python module for control of a mobile robot (holonomic)
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
+This node implements a holonomic robot control for a mobile robot in a 2D simulation
+
+Subscribes to:
+    /odom topic where the simulator publishes the robot position
+
+Publishes to: 
+    /cmd_vel the desired robot positions
+    
+Service:
+    /robot_controller_1 to move the robot to the target 
+    
+"""
+
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -56,7 +76,7 @@ def call_to_service():
             target = random_target('Waiting for Target')
         else:
             target = random_target('Target Reached')
-    except rospy.ServiceException(e):
+    except rospy.ServiceException as e:
         print(f'Service call failed: {e}')
     return target
 

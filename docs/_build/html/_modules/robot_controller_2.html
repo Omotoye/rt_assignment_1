@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>robot_controller_2 &mdash; rt_assignment_1 0.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> rt_assignment_1
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rt_assignment_1</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>robot_controller_2</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for robot_controller_2</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: robot_controller_2</span>
+<span class="sd">    :platform: Unix</span>
+<span class="sd">    :synopsis: Python module for control of a mobile robot (non-holonomic)</span>
+<span class="sd">.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com  </span>
+
+<span class="sd">This node implements a non-holonomic robot control for a mobile robot in a 2D simulation</span>
+
+<span class="sd">Subscribes to:</span>
+<span class="sd">    /odom topic where the simulator publishes the robot position</span>
+
+<span class="sd">Publishes to: </span>
+<span class="sd">    /cmd_vel the desired robot positions</span>
+<span class="sd">    </span>
+<span class="sd">Service:</span>
+<span class="sd">    /robot_controller_2 to move the robot to the target </span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="kn">import</span> <span class="n">Twist</span>
+<span class="kn">from</span> <span class="nn">nav_msgs.msg</span> <span class="kn">import</span> <span class="n">Odometry</span>
+
+<span class="kn">from</span> <span class="nn">tf.transformations</span> <span class="kn">import</span> <span class="n">euler_from_quaternion</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">atan2</span><span class="p">,</span> <span class="n">sqrt</span>
+
+<span class="kn">from</span> <span class="nn">rt_assignment_1.srv</span> <span class="kn">import</span> <span class="n">RandomTarget</span>
+<span class="kn">from</span> <span class="nn">rt_assignment_1.srv</span> <span class="kn">import</span> <span class="n">RandomTargetRequest</span>
+<span class="kn">from</span> <span class="nn">rt_assignment_1.srv</span> <span class="kn">import</span> <span class="n">RandomTargetResponse</span>
+
+<span class="n">current_position_x</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">current_position_y</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">yaw</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+
+<div class="viewcode-block" id="the_distance_to_target"><a class="viewcode-back" href="../index.html#robot_controller_2.the_distance_to_target">[docs]</a><span class="k">def</span> <span class="nf">the_distance_to_target</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the distance between the robot and the</span>
+<span class="sd">    target</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        target (Object): Object containing the x and y</span>
+<span class="sd">        coodinates of the new target</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (int): returns a tuple of the value of the</span>
+<span class="sd">        distance to the target and the required yaw to</span>
+<span class="sd">        face the direction of the target</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dist_x</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">cord_x</span> <span class="o">-</span> <span class="n">current_position_x</span>
+    <span class="n">dist_y</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">cord_y</span> <span class="o">-</span> <span class="n">current_position_y</span>
+    <span class="n">required_yaw</span> <span class="o">=</span> <span class="n">atan2</span><span class="p">(</span><span class="n">dist_y</span><span class="p">,</span> <span class="n">dist_x</span><span class="p">)</span>
+    <span class="n">distance_to_target</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">dist_x</span><span class="o">*</span><span class="n">dist_x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">dist_y</span><span class="o">*</span><span class="n">dist_y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">distance_to_target</span><span class="p">,</span> <span class="n">required_yaw</span></div>
+
+
+<div class="viewcode-block" id="call_to_service"><a class="viewcode-back" href="../index.html#robot_controller_2.call_to_service">[docs]</a><span class="k">def</span> <span class="nf">call_to_service</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sends a service request to random_target with a status</span>
+<span class="sd">    message</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (Object): A target object containing the x and y</span>
+<span class="sd">        coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;random_target&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">random_target</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;random_target&#39;</span><span class="p">,</span> <span class="n">RandomTarget</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">current_position_x</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">current_position_y</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">yaw</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">random_target</span><span class="p">(</span><span class="s1">&#39;Waiting for Target&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">random_target</span><span class="p">(</span><span class="s1">&#39;Target Reached&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">target</span></div>
+
+
+<div class="viewcode-block" id="pose_clbk"><a class="viewcode-back" href="../index.html#robot_controller_2.pose_clbk">[docs]</a><span class="k">def</span> <span class="nf">pose_clbk</span><span class="p">(</span><span class="n">pose_message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The pose callback function takes the position and posture of</span>
+<span class="sd">    the robot from the argument &quot;pose_message&quot; and set it to</span>
+<span class="sd">    three global variables containing the x, y and yaw position.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pose_message (Object): an object containing all the values</span>
+<span class="sd">        of the current position and posture of the robot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># &quot;global&quot; makes the variable accessible everywhere in the code</span>
+    <span class="k">global</span> <span class="n">current_position_x</span>
+    <span class="k">global</span> <span class="n">current_position_y</span>
+    <span class="k">global</span> <span class="n">yaw</span>
+
+    <span class="n">current_position</span> <span class="o">=</span> <span class="n">pose_message</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="n">pose_message</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span>
+    <span class="n">quaternion</span> <span class="o">=</span> <span class="p">[</span><span class="n">rotation</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">rotation</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">rotation</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">rotation</span><span class="o">.</span><span class="n">w</span><span class="p">]</span>
+
+    <span class="n">current_position_x</span> <span class="o">=</span> <span class="n">current_position</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">current_position_y</span> <span class="o">=</span> <span class="n">current_position</span><span class="o">.</span><span class="n">y</span>
+
+    <span class="c1"># Using tuple unpacking to get the roll, pitch and yaw values for the euler tuple</span>
+    <span class="p">(</span><span class="n">roll</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">yaw</span><span class="p">)</span> <span class="o">=</span> <span class="n">euler_from_quaternion</span><span class="p">(</span><span class="n">quaternion</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="control"><a class="viewcode-back" href="../index.html#robot_controller_2.control">[docs]</a><span class="k">def</span> <span class="nf">control</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The control function sends a request to random_target service,</span>
+<span class="sd">    accepts a response of the cordinates of the new target position</span>
+<span class="sd">    and sets the robot to navigate to the target coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">distance_to_target</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Initializing the node</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;robot_controller&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Creating a publisher object</span>
+    <span class="n">vel_pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;cmd_vel&#39;</span><span class="p">,</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Creating a subscriber that get the real time location of the robot</span>
+    <span class="n">pose_sub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;odom&#39;</span><span class="p">,</span> <span class="n">Odometry</span><span class="p">,</span> <span class="n">pose_clbk</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Creating an object for the robot motion</span>
+    <span class="n">velocity</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">()</span>
+
+    <span class="c1"># Creating an object to set the frequency</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">distance_to_target</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">):</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">distance_to_target</span> <span class="o">!=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">current_position_x</span> <span class="o">!=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">current_position_y</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Distance to target: </span><span class="si">{</span><span class="n">distance_to_target</span> <span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, x: </span><span class="si">{</span><span class="n">current_position_x</span> <span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, y: </span><span class="si">{</span><span class="n">current_position_y</span> <span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">call_to_service</span><span class="p">()</span>
+        <span class="n">distance_to_target</span><span class="p">,</span> <span class="n">required_yaw</span> <span class="o">=</span> <span class="n">the_distance_to_target</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">cord_x</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">target</span><span class="o">.</span><span class="n">cord_y</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">required_yaw</span> <span class="o">-</span> <span class="n">yaw</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">):</span>
+                <span class="n">velocity</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">velocity</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mf">0.3</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">velocity</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
+                <span class="n">velocity</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">distance_to_target</span><span class="p">,</span> <span class="n">required_yaw</span> <span class="o">=</span> <span class="n">the_distance_to_target</span><span class="p">(</span>
+                    <span class="n">target</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Distance to target: </span><span class="si">{</span><span class="n">distance_to_target</span> <span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, x: </span><span class="si">{</span><span class="n">current_position_x</span> <span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, y: </span><span class="si">{</span><span class="n">current_position_y</span> <span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">vel_pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+        <span class="n">rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">control</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ROSInterruptException</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Omotoye Shamsudeen Adekoya.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
