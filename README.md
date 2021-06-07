@@ -183,5 +183,5 @@ _Again, this second method is not the recommended one, the first one is easy and
 <br/>
 
 
-_For more information about the python scripts, go to docs/html/index.html_
+_For more information about the python scripts_,  [Click Here](https://omotoye.github.io/rt_assignment_1/ "link to the code API webpage")
 
