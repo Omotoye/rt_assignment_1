@@ -65,13 +65,15 @@ To see how all the nodes communicate, it can be best described by an rqt_graph a
 * Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects when the __client__ sends a request to it.
 
 # Non Holonomic Contol
+<img align="right"  src="images/non-holonomic.gif">
 An additional node is added to control the robot as if it were a non-holonomic robot. The major difference between the two types of robot is that a holonomic robot can move on both x and y axis unlike a non-holonomic robot which can only move on the x axis. For a non-holonomic robot to navigate, the control of the yaw axis is required, this is show in the display below. 
 
-![holonomic]( images/../images/non-holonomic.gif "holonomic controler")
 
 The robot has to correct the yaw axis of the robot to the required yaw to reach the target before motion towards the target begins.Although the x and y coordinate is pretty easy to get from the Odom msg, the yaw axis needs an extra step
 
 The Orientation returned by the odom object is in __quaternion__ which has to be converted to __euler's angles__ to make the computation easier. The code snippet below shows the steps taken for this conversion
+
+
 ```python
     rotation = pose_message.pose.pose.orientation
     quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
@@ -97,23 +99,23 @@ The Orientation returned by the odom object is in __quaternion__ which has to be
 
 However the control of the holonomic robot is easy.
 * Algorithm for the non-holonomic robot Navigation:
+<img align="right"  src="images/holonomic.gif">
     * Calculate the distance of the robot to the target
     * Divide the distance by the speed the robot would move at, to get the rate along the path to the target
     * Divide the dist of x and y cordinate by rate to the path to get the rate through each cordinate. 
     * move simultaneously at each of the calcuate rate for the x and y axis till the robot gets to the target. 
 
-```python
+```python 
     dist_x = target.cord_x - current_position_x
     dist_y = target.cord_y - current_position_y
 
     distance_to_target = sqrt((dist_x * dist_x) + (dist_y * dist_y))
     required_x = (dist_x / (distance_to_target / SPEED))
     required_y = (dist_y / (distance_to_target / SPEED))
-
 ```
 The holonomic control of the robot is shown below
 
-![holonomic]( images/../images/holonomic.gif "holonomic controler")
+
 
 
 # How to Compile and Launch the Package
