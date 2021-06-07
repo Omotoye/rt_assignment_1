@@ -98,8 +98,8 @@ The Orientation returned by the odom object is in __quaternion__ which has to be
 ```
 
 However the control of the holonomic robot is easy.
-* Algorithm for the non-holonomic robot Navigation:
 <img align="right"  src="images/holonomic.gif">
+* Algorithm for the non-holonomic robot Navigation:
     * Calculate the distance of the robot to the target
     * Divide the distance by the speed the robot would move at, to get the rate along the path to the target
     * Divide the dist of x and y cordinate by rate to the path to get the rate through each cordinate. 
