@@ -7,9 +7,8 @@
 * #### ROS Package Description
     * What the Package Does
     * How the Nodes in the Package works
-    * Non Holonomic Control
+    * Holonomic and Non Holonomic Control
 * #### How to Compile and Launch the Package
-* #### What behaviour should you expect to see after Launching the Package
 
 
 # ROS Package Description
@@ -64,7 +63,7 @@ To see how all the nodes communicate, it can be best described by an rqt_graph a
 * From the image, it is shown that the _/robot_controller_h_ is subscribed to the __odom__ topic of the __Stage__ node and the _/robot_controller_h_ is publishing to the _/cmd_vel_ topic.
 * Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects when the __client__ sends a request to it.
 
-# Non Holonomic Contol
+# Holonomic and Non Holonomic Control 
 <img align="right"  src="images/non-holonomic.gif">
 An additional node is added to control the robot as if it were a non-holonomic robot. The major difference between the two types of robot is that a holonomic robot can move on both x and y axis unlike a non-holonomic robot which can only move on the x axis. For a non-holonomic robot to navigate, the control of the yaw axis is required, this is show in the display below. 
 
