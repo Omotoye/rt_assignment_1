@@ -7,6 +7,7 @@
 * #### ROS Package Description
     * What the Package Does
     * How the Nodes in the Package works
+    * Non Holonomic Control
 * #### How to Compile and Launch the Package
 * #### What behaviour should you expect to see after Launching the Package
 
@@ -23,37 +24,14 @@ This package controls a holonomic robot in a 2d space with a simple 2d simulator
 
 ### How the nodes in the Package works
 ---
-The two nodes are written in python. The package is intended to run on the latest distribution of ROS 1, __ROS Noetic Ninjemys__  *(Release Date, May 23rd, 2020)*. ROS Noetic works with C++ and *(Exclusively)* __Python3__, so the code is written with a shebang line to a python3 compiler and also with some new features of python3. So the point is __if you want to launch this package on other distributions, you will have to make some changes to the python code__.
+The two nodes are written in python. The package is intended to run on the latest distribution of ROS 1, __ROS Noetic Ninjemys__  *(Release Date, May 23rd, 2020)*. ROS Noetic works with C++ and *(Exclusively)* __Python3__, so the code is written with a shebang line to a python3 compiler and also with some new features of python3. The package should be used with ROS Noetic to avoid errors. 
+
 #### Node 1 ---> *Robot controller*
 * The node sends a request for the cordinates of the next target
 * It receives a response of an Object containing the x and y coordinates, which is the target to navigate the robot to.
 * The controller needs the real-time x, y coordinates and the yaw axis of the robot in order to navigate the robot to the intended target. For this the controller node is subscribed to a topic called __"odom"__.
-* Although the x and y coordinate is pretty easy to get from the object returned from the odom topic, the yaw axis needs an extra step
-* The Orientation returned by the odom object is in __quaternion__ which has to be converted to __euler's angles__ to make the computation easier. The code snippet below shows the steps taken for this conversion
-```python
-    rotation = pose_message.pose.pose.orientation
-    quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
+* The topic **"odom** provides the x and y pose of the robot. 
 
-    # Using tuple unpacking to get the roll, pitch and yaw values for the euler tuple
-    (roll, pitch, yaw) = euler_from_quaternion(quaternion)
-```
-
-
-* Algorithm for the robot Navigation:
-    * Get the Robot Orientation angle and Angle to the target *(required robot orientation)*
-    * Add or subtract from the robot orientation angle until the *abs(robot_orientation_angle - angle_to_the_target) < 0.1*
-    * If *abs(robot_orientation_angle - angle_to_the_target) < 0.1*, then the robot is facing the right direction
-    * Move the robot forward until the distance between the robot and the target is less than 0.1
-    * The distance between the robot and the target can be caluculated at every instance with pythagoras theorem
-    * If the distance between the robot and the target is less than 0.1, then the robot has gotten to the target.
-* Code for some of the calculations is shown below.
-```python
-    dist_x = target.cord_x - current_position_x
-    dist_y = target.cord_y - current_position_y
-    required_yaw = atan2(dist_y, dist_x)
-    distance_to_target = sqrt((dist_x*dist_x) + (dist_y*dist_y))
-    return distance_to_target, required_yaw
-```
 
 #### Node 2 ---> *Robot Server*
 * This node listens for a request from the robot controller __(Client)__.
@@ -81,10 +59,61 @@ from rt_assignment_1.srv import RandomTargetResponse
 
 #### How the Nodes Communicate
 To see how all the nodes communicate, it can be best described by an rqt_graph as show below
-![rqt_graph]( images/rqt_graph.JPG "rqt_graph")
+![rqt_graph]( images/rosgraph.png "rqt_graph")
 
-* From the image, it is shown that the _/robot_controller_ is subscribed to the __odom__ topic of the __Stage__ node and the _/robot_controller_ is publishing to the _/cmd_vel_ topic.
-* Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects what the __client__ sends a request to it.
+* From the image, it is shown that the _/robot_controller_h_ is subscribed to the __odom__ topic of the __Stage__ node and the _/robot_controller_h_ is publishing to the _/cmd_vel_ topic.
+* Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects when the __client__ sends a request to it.
+
+# Non Holonomic Contol
+An additional node is added to control the robot as if it were a non-holonomic robot. The major difference between the two types of robot is that a holonomic robot can move on both x and y axis unlike a non-holonomic robot which can only move on the x axis. For a non-holonomic robot to navigate, the control of the yaw axis is required, this is show in the display below. 
+
+![holonomic]( images/../images/non-holonomic.gif "holonomic controler")
+
+The robot has to correct the yaw axis of the robot to the required yaw to reach the target before motion towards the target begins.Although the x and y coordinate is pretty easy to get from the Odom msg, the yaw axis needs an extra step
+
+The Orientation returned by the odom object is in __quaternion__ which has to be converted to __euler's angles__ to make the computation easier. The code snippet below shows the steps taken for this conversion
+```python
+    rotation = pose_message.pose.pose.orientation
+    quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
+
+    # Using tuple unpacking to get the roll, pitch and yaw values for the euler tuple
+    (roll, pitch, yaw) = euler_from_quaternion(quaternion)
+```
+* Algorithm for the non-holonomic robot Navigation:
+    * Get the Robot Orientation angle and Angle to the target *(required robot orientation)*
+    * Add or subtract from the robot orientation angle until the *abs(robot_orientation_angle - angle_to_the_target) < 0.1*
+    * If *abs(robot_orientation_angle - angle_to_the_target) < 0.1*, then the robot is facing the right direction
+    * Move the robot forward until the distance between the robot and the target is less than 0.1
+    * The distance between the robot and the target can be caluculated at every instance with pythagoras theorem
+    * If the distance between the robot and the target is less than 0.1, then the robot has gotten to the target.
+* Code for some of the calculations is shown below.
+```python
+    dist_x = target.cord_x - current_position_x
+    dist_y = target.cord_y - current_position_y
+    required_yaw = atan2(dist_y, dist_x)
+    distance_to_target = sqrt((dist_x*dist_x) + (dist_y*dist_y))
+    return distance_to_target, required_yaw
+```
+
+However the control of the holonomic robot is easy.
+* Algorithm for the non-holonomic robot Navigation:
+    * Calculate the distance of the robot to the target
+    * Divide the distance by the speed the robot would move at, to get the rate along the path to the target
+    * Divide the dist of x and y cordinate by rate to the path to get the rate through each cordinate. 
+    * move simultaneously at each of the calcuate rate for the x and y axis till the robot gets to the target. 
+
+```python
+    dist_x = target.cord_x - current_position_x
+    dist_y = target.cord_y - current_position_y
+
+    distance_to_target = sqrt((dist_x * dist_x) + (dist_y * dist_y))
+    required_x = (dist_x / (distance_to_target / SPEED))
+    required_y = (dist_y / (distance_to_target / SPEED))
+
+```
+The holonomic control of the robot is shown below
+
+![holonomic]( images/../images/holonomic.gif "holonomic controler")
 
 
 # How to Compile and Launch the Package
@@ -116,12 +145,17 @@ If you didnt follow the initial steps because you already have a workspace, trac
 ```bash
 source /home/omotoye/Desktop/catkin_ws/devel/setup.bash
 ```
-For the easy step, in thesame terminal where you source the setup.bash file, run the command below
+For the easy step a launch file has been created for launching all the required nodes for the simulation and control; in thesame terminal where you source the setup.bash file, run the command below for the holonomic control
 ```bash
-roslaunch rt_assignment_1 rt_assignment_1.launch
+roslaunch rt_assignment_1 holonomic_control.launch
 ```
-For the __not so easy step__, you need to open four terminals, source the setup.bash in three out of the four.
-In the terminal you didn't source the setup.bash file, run the command below
+run the command below for the non-holonomic control
+```bash
+roslaunch rt_assignment_1 non-holonomic_control.launch
+```
+
+For the __not so easy step__, you need to open four terminals, source the setup.bash in the four of them. 
+run the command below to launch the ros master
 ```bash
 roscore
 ```
@@ -133,23 +167,19 @@ Next you run the command below in one of the terminals with setup.bash sourced, 
 ```bash
 rosrun rt_assignment_1 remote_server.py
 ```
-Next you run the robot controller in one of the terminals with setup.bash sourced
+Next you run the robot controller in one of the terminals with setup.bash sourced; for holonomic control
 ```bash
-rosrun rt_assignment_1 robot_controller.py
+rosrun rt_assignment_1 robot_controller_1.py
+```
+for non-holonomic control, run 
+```bash
+rosrun rt_assignment_1 robot_controller_2.py
 ```
 
 _Again, this second method is not the recommended one, the first one is easy and compact, with all the feedbacks on one terminal_
 
 <br/>
 
-# What behaviour should you expect to see after launching the package
-
-A 2d robot simulation environment should open in a different window and a feedback of the real-time location of the robot returned to the shell as shown in the image below
-![2D Simulation and Feedback Data]( images/2d_simulation.JPG "2D Simulation and Feedback Data")
-
 
 _For more information about the python scripts, go to docs/html/index.html_
-
-
-
 

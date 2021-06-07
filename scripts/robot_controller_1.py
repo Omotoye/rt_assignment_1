@@ -12,7 +12,7 @@ from rt_assignment_1.srv import RandomTargetResponse
 
 current_position_x = 0.0
 current_position_y = 0.0
-speed = 0.5
+SPEED = 0.5
 
 
 def the_distance_to_target(target):
@@ -26,15 +26,17 @@ def the_distance_to_target(target):
 
     Returns:
         (int): returns a tuple of the value of the
-        distance to the target and the required yaw to
-        face the direction of the target
+        distance to the target and the required velocity
+        in the x and y direction to reach the target and 
+        the distance to the target 
     """
 
     dist_x = target.cord_x - current_position_x
     dist_y = target.cord_y - current_position_y
+
     distance_to_target = sqrt((dist_x * dist_x) + (dist_y * dist_y))
-    required_x = (dist_x / (distance_to_target / speed))
-    required_y = (dist_y / (distance_to_target / speed))
+    required_x = (dist_x / (distance_to_target / SPEED))
+    required_y = (dist_y / (distance_to_target / SPEED))
     return distance_to_target, required_x, required_y
 
 
@@ -63,7 +65,7 @@ def pose_clbk(pose_message):
     """
     The pose callback function takes the position and posture of
     the robot from the argument "pose_message" and set it to
-    three global variables containing the x, y and yaw position.
+    two global variables containing the x and y 
 
     Args:
         pose_message (Object): an object containing all the values
@@ -111,10 +113,11 @@ def control():
                 print(
                     f'Distance to target: {distance_to_target :.4f}, x: {current_position_x :.4f}, y: {current_position_y :.4f}')
             target = call_to_service()
-        distance_to_target, required_x, required_y = the_distance_to_target(target)
+        distance_to_target, required_x, required_y = the_distance_to_target(
+            target)
         if (target.cord_x != 0 and target.cord_y != 0):
             velocity.linear.x = required_x
-            velocity.linear.y = required_y 
+            velocity.linear.y = required_y
             distance_to_target, required_x, required_y = the_distance_to_target(
                 target)
             print(
