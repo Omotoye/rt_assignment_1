@@ -12,7 +12,7 @@
 
 
 # ROS Package Description
-### What the Package Does
+## What the Package Does
 ---
 This package controls a holonomic robot in a 2d space with a simple 2d simulator, Stage. There are two nodes in the package;
 1. The first node is in charge of:
@@ -21,18 +21,18 @@ This package controls a holonomic robot in a 2d space with a simple 2d simulator
 1. The second node will act as a __service Server__ by:
     * Replying the __Client__ with a random target having x and y in the interval (-6.0, 6.0)
 
-### How the nodes in the Package works
+## How the nodes in the Package works
 ---
 The two nodes are written in python. The package is intended to run on the latest distribution of ROS 1, __ROS Noetic Ninjemys__  *(Release Date, May 23rd, 2020)*. ROS Noetic works with C++ and *(Exclusively)* __Python3__, so the code is written with a shebang line to a python3 compiler and also with some new features of python3. The package should be used with ROS Noetic to avoid errors. 
 
-#### Node 1 ---> *Robot controller*
+### Node 1 ---> *Robot controller*
 * The node sends a request for the cordinates of the next target
 * It receives a response of an Object containing the x and y coordinates, which is the target to navigate the robot to.
 * The controller needs the real-time x, y coordinates and the yaw axis of the robot in order to navigate the robot to the intended target. For this the controller node is subscribed to a topic called __"odom"__.
 * The topic **"odom** provides the x and y pose of the robot. 
 
 
-#### Node 2 ---> *Robot Server*
+### Node 2 ---> *Robot Server*
 * This node listens for a request from the robot controller __(Client)__.
 * Accepts the request and sends a response of a randomly generated coordinate between(-6.0, 6.0), code snippet below
 ```python
@@ -56,14 +56,15 @@ from rt_assignment_1.srv import RandomTargetRequest
 from rt_assignment_1.srv import RandomTargetResponse
 ```
 
-#### How the Nodes Communicate
+### How the Nodes Communicate
 To see how all the nodes communicate, it can be best described by an rqt_graph as show below
 ![rqt_graph]( images/rosgraph.png "rqt_graph")
 
 * From the image, it is shown that the _/robot_controller_h_ is subscribed to the __odom__ topic of the __Stage__ node and the _/robot_controller_h_ is publishing to the _/cmd_vel_ topic.
 * Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects when the __client__ sends a request to it.
 
-# Holonomic and Non Holonomic Control 
+## Holonomic and Non Holonomic Control 
+---
 <img align="right"  src="images/non-holonomic.gif">
 An additional node is added to control the robot as if it were a non-holonomic robot. The major difference between the two types of robot is that a holonomic robot can move on both x and y axis unlike a non-holonomic robot which can only move on the x axis. For a non-holonomic robot to navigate, the control of the yaw axis is required, this is show in the display below. 
 
@@ -118,7 +119,7 @@ The holonomic control of the robot is shown below
 
 
 # How to Compile and Launch the Package
-### Compile
+## Compile
 ---
 First you create a folder for your catkin workspace
 ```bash
@@ -134,7 +135,7 @@ Once the package has been successfully cloned, you then build the workspace
 cd ~/catkin_ws/
 catkin_make
 ```
-### Launch
+## Launch
 ---
 There are two ways to launch the package, one very easy and one not so easy. For either of the two ways, the first step is __Very Important__ and it's thesame for the two ways.
 
