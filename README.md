@@ -13,7 +13,7 @@
 
 # ROS Package Description
 ## What the Package Does
----
+
 This package controls a holonomic robot in a 2d space with a simple 2d simulator, Stage. There are two nodes in the package;
 1. The first node is in charge of:
     * Calling a service for receiving a random target
@@ -22,7 +22,7 @@ This package controls a holonomic robot in a 2d space with a simple 2d simulator
     * Replying the __Client__ with a random target having x and y in the interval (-6.0, 6.0)
 
 ## How the nodes in the Package works
----
+
 The two nodes are written in python. The package is intended to run on the latest distribution of ROS 1, __ROS Noetic Ninjemys__  *(Release Date, May 23rd, 2020)*. ROS Noetic works with C++ and *(Exclusively)* __Python3__, so the code is written with a shebang line to a python3 compiler and also with some new features of python3. The package should be used with ROS Noetic to avoid errors. 
 
 ### Node 1 ---> *Robot controller*
@@ -64,7 +64,7 @@ To see how all the nodes communicate, it can be best described by an rqt_graph a
 * Notice how the */random_target_gen* is not connected, that's because the */random_target_gen* is a **service server** node. It only connects when the __client__ sends a request to it.
 
 ## Holonomic and Non Holonomic Control 
----
+
 <img align="right"  src="images/non-holonomic.gif">
 An additional node is added to control the robot as if it were a non-holonomic robot. The major difference between the two types of robot is that a holonomic robot can move on both x and y axis unlike a non-holonomic robot which can only move on the x axis. For a non-holonomic robot to navigate, the control of the yaw axis is required, this is show in the display below. 
 
@@ -120,7 +120,7 @@ The holonomic control of the robot is shown below
 
 # How to Compile and Launch the Package
 ## Compile
----
+
 First you create a folder for your catkin workspace
 ```bash
 mkdir -p ~/catkin_ws/src
@@ -136,7 +136,7 @@ cd ~/catkin_ws/
 catkin_make
 ```
 ## Launch
----
+
 There are two ways to launch the package, one very easy and one not so easy. For either of the two ways, the first step is __Very Important__ and it's thesame for the two ways.
 
 Step one, source the setup.bash file, if you followed the steps above, then you can enter the command below. 
